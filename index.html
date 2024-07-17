@@ -14,10 +14,10 @@
     <div class="container my-5">
         <h1 class="text-center mb-5">My Photo Album</h1>
         <div class="categories mb-4 text-center">
-            <button class="btn btn-secondary mx-1" onclick="filterPhotos('all')">All</button>
-            <button class="btn btn-secondary mx-1" onclick="filterPhotos('graduation')">Graduation</button>
-            <button class="btn btn-secondary mx-1" onclick="filterPhotos('lagalag')">Lagalag</button>
-            <button class="btn btn-secondary mx-1" onclick="filterPhotos('random')">Random</button>
+            <button class="btn btn-secondary mx-1" data-category="all">All</button>
+            <button class="btn btn-secondary mx-1" data-category="graduation">Graduation</button>
+            <button class="btn btn-secondary mx-1" data-category="lagalag">Lagalag</button>
+            <button class="btn btn-secondary mx-1" data-category="random">Random</button>
         </div>
         <div class="row" id="photo-album">
             <!-- Photos will be injected here by JavaScript -->

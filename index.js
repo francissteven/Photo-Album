@@ -1,18 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const photos = [
-        { src: '1.jpg', category: 'graduation' },
-        { src: '2.jpg', category: 'graduation' },
-        { src: '3.jpg', category: 'random' },
-        { src: '4.jpg', category: 'random' },
-        { src: '5.jpg', category: 'lagalag' },
-        { src: '6.jpg', category: 'lagalag' },
-        { src: '7.jpg', category: 'lagalag' },
-        { src: '8.jpg', category: 'lagalag' },
-        { src: '9.jpg', category: 'random' },
-        { src: '10.jpg', category: 'random' },
-        { src: '11.jpg', category: 'random' }
-    ];
-
     const photoAlbum = document.getElementById('photo-album');
     const flipSound = document.getElementById('flip-sound');
     const modal = document.getElementById('photo-modal');
@@ -21,11 +7,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function displayPhotos(filteredPhotos) {
         photoAlbum.innerHTML = '';
-        
+
         filteredPhotos.forEach((photo, index) => {
             const col = document.createElement('div');
             col.classList.add('col-6', 'col-md-4', 'col-lg-2', 'photo-item');
-            col.setAttribute('data-category', photo.category);
 
             const card = document.createElement('div');
             card.classList.add('photo-card');
@@ -55,11 +40,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    function filterPhotos(category) {
-        const filteredPhotos = category === 'all' ? photos : photos.filter(photo => photo.category === category);
-        displayPhotos(filteredPhotos);
-    }
-
     closeModal.addEventListener('click', () => {
         modal.style.display = 'none';
     });
@@ -70,6 +50,27 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Display all photos initially
-    filterPhotos('all');
+    function filterPhotos(category, photos) {
+        if (category === 'all') {
+            displayPhotos(photos);
+        } else {
+            const filteredPhotos = photos.filter(photo => photo.category === category);
+            displayPhotos(filteredPhotos);
+        }
+    }
+
+    fetch('photos.json')
+        .then(response => response.json())
+        .then(photos => {
+            document.querySelectorAll('.categories button').forEach(button => {
+                button.addEventListener('click', () => {
+                    const category = button.getAttribute('data-category');
+                    filterPhotos(category, photos);
+                });
+            });
+
+            // Display all photos initially
+            filterPhotos('all', photos);
+        })
+        .catch(error => console.error('Error fetching photos:', error));
 });
